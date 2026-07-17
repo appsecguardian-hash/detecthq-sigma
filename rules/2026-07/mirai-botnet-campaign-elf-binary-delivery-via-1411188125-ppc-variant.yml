@@ -1,0 +1,19 @@
+title: Mirai ELF Download via Wget
+id: ead6e26a-094a-4a01-b383-48c03687afc9
+status: experimental
+author: DetectHQ by GanaSec
+date: 2026/07/01
+references:
+  - https://detecthq.in
+falsepositives:
+  - Unlikely
+logsource:
+  category: process_creation
+  product: linux
+  service: auditd
+
+detection:
+  selection:
+    Image: /usr/bin/wget
+    CommandLine|contains: "141.11.88.125/bins/ppc"
+  condition: selection
