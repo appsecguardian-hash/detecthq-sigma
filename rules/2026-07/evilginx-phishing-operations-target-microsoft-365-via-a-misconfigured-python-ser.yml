@@ -1,0 +1,20 @@
+title: Evilginx Phishing C2 DNS Query
+id: c5a15e80-ed6d-4f79-8322-b1e6f566b17d
+status: experimental
+falsepositives:
+  - Unlikely
+logsource:
+  product: dns
+  service: dns
+detection:
+  selection:
+    QueryName|contains:
+      - 'picis.net'
+      - 'romnor.ca'
+  condition: selection
+metadata:
+  author: DetectHQ
+  references:
+    - https://detecthq.in
+  date: 2026-07-13
+level: high
