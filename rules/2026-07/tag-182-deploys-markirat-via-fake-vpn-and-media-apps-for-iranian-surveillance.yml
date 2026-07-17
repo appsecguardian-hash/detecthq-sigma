@@ -1,0 +1,30 @@
+title: MarkiRAT BITS and Registry Persistence
+author: DetectHQ by GanaSec
+date: 2026/07/01
+falsepositives:
+  - Unlikely
+id: 2f4f37e0-2026-07-01-detecthq
+status: experimental
+description: Detects MarkiRAT persistence and BITS usage as seen in TAG-182 campaign
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection1:
+    Image|endswith: 'bitsadmin.exe'
+    CommandLine|contains: '/transfer MarkiRATDownload'
+  selection2:
+    Image|endswith: 'reg.exe'
+    CommandLine|contains: 'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run'
+    CommandLine|contains: 'YESHICA'
+  condition: selection1 or selection2
+fields:
+  - Image
+  - CommandLine
+  - ParentImage
+  - User
+  - Hostname
+  - Timestamp
+level: high
+references:
+  - https://detecthq.in
