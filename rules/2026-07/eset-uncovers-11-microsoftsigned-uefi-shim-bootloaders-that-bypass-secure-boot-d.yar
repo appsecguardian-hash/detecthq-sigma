@@ -1,0 +1,26 @@
+import "hash"
+rule UEFI_Shim_Bypass {
+    meta:
+        author = "DetectHQ"
+        description = "Detects Microsoft‑signed legacy UEFI shim bootloaders (CVE‑2026‑8863/10797)"
+        reference = "https://detecthq.in"
+        date = "2026-07-14"
+    strings:
+        $shim_marker = "UEFI shim" nocase
+    condition:
+        any of (
+            hash.sha256(0, filesize) == "236a9cb0d71951c36398a32eb660ce2cd4a52ccfa7cf751cc6a35d9de549e19b",
+            hash.sha256(0, filesize) == "410260b1b6f5af5fbeeb9ea3220658435e876cb3247126ee907a437f312db373",
+            hash.sha256(0, filesize) == "5e594c448760a3135b1a3a83e07a4f2e6fbe49414ef2c7cab1cba77f284fa63b",
+            hash.sha256(0, filesize) == "7b2a3f5c96f95bd8086ce54b0825e300f9c8f11fe3401bb631b3215c8de9eb10",
+            hash.sha256(0, filesize) == "8a964d5f8373948d20a1d4296fb92e545dad4617a0c810f3b934b53d98ae8963",
+            hash.sha256(0, filesize) == "95b6d71fc0c0f8c5e1533a37aef92cf6b0c961e2cc612a97117fa6759ce5fc06",
+            hash.sha256(0, filesize) == "96275dfd6282a522b011177ee049296952ac794832091f937fbbf92869028629",
+            hash.sha256(0, filesize) == "a0de9333442c1bf9349a460141ae5e80f911955c6506040fa3d021bf6c1ae3e4",
+            hash.sha256(0, filesize) == "ae75f0d82ba3df824fbfc69340cc3b4d66c598373b1ab54cdb6c8bfd83a6b961",
+            hash.sha256(0, filesize) == "eb86fa1386fe6e4533b8b938dcc1250616d2f1c14c15e2fcf80834a161018a0a",
+            hash.sha256(0, filesize) == "fd23d6e57de6f4e1f9d7118da1c5f31a8af6be5e5d9e8170f9493447268d50c5"
+        ) or (
+            uint16(0) == 0x5A4D and $shim_marker
+        )
+}
