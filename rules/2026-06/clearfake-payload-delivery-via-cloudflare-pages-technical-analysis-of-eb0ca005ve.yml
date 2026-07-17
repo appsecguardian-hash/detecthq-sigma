@@ -1,0 +1,24 @@
+title: ClearFake PowerShell Encoded Command Execution
+author: DetectHQ by GanaSec
+date: 2026/06/30
+references:
+  - https://detecthq.in
+id: 4e5f9f7c-9c2f-4e0e-bd10-4f6d2d6b4c3e
+status: experimental
+description: Detects encoded PowerShell execution, commonly used by ClearFake payloads
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: 'powershell.exe'
+    CommandLine|contains: '-EncodedCommand'
+  condition: selection
+fields:
+  - Image
+  - CommandLine
+  - ParentImage
+  - User
+falsepositives:
+  - Legitimate admin scripts (should be reviewed in context)
+level: high
