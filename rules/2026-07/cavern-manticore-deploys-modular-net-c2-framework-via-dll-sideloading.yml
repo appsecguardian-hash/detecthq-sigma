@@ -1,0 +1,25 @@
+title: Cavern Manticore Agent DLL Loading
+id: cavern-manticore-agent-dll-loading
+status: experimental
+author: DetectHQ by GanaSec
+references:
+  - https://detecthq.in
+date: 2026/07/07
+description: Detects loading of Cavern Manticore's uxtheme.dll agent via WinDirStat.exe
+logsource:
+  category: process_creation
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    ParentImage|endswith: '\\WinDirStat.exe'
+    Image|endswith: '\\uxtheme.dll'
+  condition: selection
+fields:
+  - ParentImage
+  - Image
+  - CommandLine
+  - User
+falsepositives:
+  - Legitimate DLL loading by WinDirStat
+level: critical
