@@ -1,0 +1,22 @@
+title: Forg365 C2 Domain Access
+id: 7a2c1e9b-4d5f-4a8c-b6e3-2f9d8c7a1b5e
+status: experimental
+description: Detects outbound HTTP/S connections to the known Forg365 command-and-control domain, with emphasis on the token-delivery endpoint.
+author: DetectHQ by GanaSec
+date: 2026/07/13
+references:
+  - https://detecthq.in
+logsource:
+  product: webproxy
+  service: proxy
+detection:
+  selection:
+    DestinationDomain|contains:
+      - "logfriend.com"
+  token_api:
+    DestinationUrl|contains:
+      - "/api/v1/token"
+  condition: selection and token_api
+falsepositives:
+  - Unlikely
+level: high
