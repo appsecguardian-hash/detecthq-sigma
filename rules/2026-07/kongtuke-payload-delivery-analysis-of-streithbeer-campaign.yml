@@ -1,0 +1,31 @@
+title: KongTuke JavaScript Payload Execution from streith.beer
+date: 2026/07/06
+falsepositives:
+  - Unlikely
+id: 2b7e6d8d-8f1e-4f0a-9a2a-123456789abc
+status: experimental
+description: Detects execution of JavaScript payloads retrieved from streith.beer
+references:
+  - https://streith.beer/file.js
+  - https://threatfox.abuse.ch/browse/malware/KongTuke/
+author: DetectHQ
+tags:
+  - kongtuke
+  - streith.beer
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith:
+      - '\wscript.exe'
+      - '\cscript.exe'
+    CommandLine|contains:
+      - 'streith.beer/file.js'
+  condition: selection
+fields:
+  - Image
+  - CommandLine
+  - ParentImage
+  - User
+level: critical
