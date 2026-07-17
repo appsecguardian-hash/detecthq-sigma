@@ -1,0 +1,24 @@
+title: Suspicious File System Access API Usage in Web Logs
+author: DetectHQ by GanaSec
+date: 2026/07/01
+references:
+  - https://detecthq.in
+id: 7e2e1f4f-3c6c-4d9d-9e2d-DeepSeek
+status: experimental
+description: Detects access to showDirectoryPicker or showOpenFilePicker indicative of browser-native ransomware
+logsource:
+  category: webserver
+  product: chrome
+detection:
+  selection:
+    request|contains:
+      - 'showDirectoryPicker'
+      - 'showOpenFilePicker'
+  condition: selection
+fields:
+  - src_ip
+  - url
+  - user_agent
+falsepositives:
+  - Legitimate web apps requiring file system access
+level: high
