@@ -1,0 +1,29 @@
+title: FireAnt Metakit Spawning Unknown Process
+status: experimental
+author: DetectHQ by GanaSec
+date: 2026/06/30
+references:
+  - https://detecthq.in
+id: e6c7e3a8-6f4b-4f9a-8e8b-123456789abc
+description: Detects FireAnt Metakit updating process spawning unexpected executables (potential SPECTRALVIPER infection)
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    ParentImage|endswith: '\\FireAntMetakit.exe'
+    Image|endswith:
+      - '.exe'
+      - '.dll'
+  filter:
+    Image|endswith:
+      - '\\FireAntMetakit.exe'
+  condition: selection and not filter
+fields:
+  - ParentImage
+  - Image
+  - CommandLine
+  - User
+falsepositives:
+  - Legitimate updates that install helper binaries
+level: high
